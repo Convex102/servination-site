@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Create API Key – Servination AI Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+            <div class="brand">
+        <a href="/" class="brand-link">
+          <div class="brand-mark">S</div>
+          <div class="brand-copy">
+            <div class="brand-name">Servination</div>
+            <div class="brand-tagline">A full AI operations platform with knowledge intelligence & workflow automation.</div>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/assistants" class="nav-link">Assistants</a>
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <a href="/case-studies" class="nav-link">Case Studies</a>
+        <a href="/client" class="nav-link">Client login</a>
+        <a href="/signup" class="nav-link active">Sign up</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="/signup" class="btn btn-outline">Start 30-day free trial</a>
+  </header>
+
+  <main class="page-main">
+    <section class="section">
+      <div class="container auth-layout">
+        <div class="auth-panel">
+          <h1>Create your Servination API key</h1>
+          <p>
+            Use this form to create a Servination account and generate an API key. In a production deployment
+            this would be tied to your Stripe subscription, but here it lets you test how plan-based access works.
+          </p>
+
+          <div id="signup-plan-summary" class="signup-plan-summary"></div>
+
+          <form id="signup-form" class="auth-form">
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" id="signup-name" required placeholder="Jane Doe" />
+            </label>
+
+            <label class="field">
+              <span>Email</span>
+              <input type="email" id="signup-email" required placeholder="you@company.com" />
+            </label>
+
+            <input type="hidden" id="stripe-session-id" />
+
+            <label class="field">
+              <span>Plan</span>
+              <select id="signup-plan" required>
+                <option value="bronze">Bronze – £49.99 / month</option>
+                <option value="standard">Standard – £99 / month</option>
+                <option value="gold">Gold – £249 / month</option>
+                <option value="platinum">Platinum – £499 / month</option>
+                <option value="diamond">Diamond – £999 / month</option>
+                <option value="enterprise">Enterprise – custom</option>
+              </select>
+            </label>
+
+            <div id="signup-plan-summary" class="signup-plan-summary"></div>
+
+            <button type="submit" class="btn btn-primary">Generate API key</button>
+          </form>
+
+          <div id="signup-result" class="auth-result" hidden>
+            <h2>Your API key</h2>
+            <p class="muted">
+              Store this somewhere secure. You can use it in the client workspace to access the assistants
+              included in your plan.
+            </p>
+            <pre id="signup-api-key" class="api-key-box"></pre>
+            <p>
+              Ready to try it? <a href="/client">Go to client login</a>
+            </p>
+          </div>
+
+          <div id="signup-error" class="auth-error" hidden></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const signupForm = document.getElementById('signup-form');
+
+    const signupPlanSelect = document.getElementById('signup-plan');
+    const stripeSessionInput = document.getElementById('stripe-session-id');
+    const planMeta = {
+      bronze: {
+        name: "Bronze",
+        price: "£49.99 / month",
+        blurb: "This plan includes access to the Servination AI operations platform with core assistants across operations, finance, risk, pensions and compliance, knowledge intelligence with document upload, workflow automation, multi-model AI routing and automated client reports. You’ll start on a 30-day free trial with full feature access; cancel any time from the client area.",
+      },
+      standard: {
+        name: "Standard",
+        price: "£99 / month",
+        blurb: "Adds more collaboration features, diary and inbox tools, and expanded assistants for everyday operations teams.",
+      },
+      gold: {
+        name: "Gold",
+        price: "£249 / month",
+        blurb: "Unlocks 30+ assistants across finance, risk, process design, sales and operations, plus automated client reports and higher usage allowances.",
+      },
+      platinum: {
+        name: "Platinum",
+        price: "£499 / month",
+        blurb: "For mid-size firms and consultancies that need deeper analytics, scenario modelling and pensions tools, with broader multi-team access.",
+      },
+      diamond: {
+        name: "Diamond",
+        price: "£999 / month",
+        blurb: "Full access to the Servination suite including advanced forecasting, global risk and bespoke workflows for complex, multi-entity groups.",
+      },
+    };
+
+    const planSummaryBox = document.getElementById('signup-plan-summary');
+    function updatePlanSummary(plan) {
+      if (!planSummaryBox || !planMeta[plan]) return;
+      const meta = planMeta[plan];
+      planSummaryBox.innerHTML = `
+        <div class="plan-summary-pill">${meta.name} plan</div>
+        <div class="plan-summary-price">${meta.price}</div>
+        <p class="plan-summary-blurb">${meta.blurb}</p>
+        <p class="plan-summary-note">You’ll start on a 30-day free trial. Cancel any time from the client area.</p>
+      `;
+    }
+
+    if (signupPlanSelect) {
+      signupPlanSelect.addEventListener('change', (event) => {
+        updatePlanSummary(event.target.value);
+      });
+    }
+
+    // Read query string params, e.g. /signup?plan=gold&session_id=cs_test
+    const params = new URLSearchParams(window.location.search);
+    const preselectPlan = params.get('plan');
+    const stripeSessionId = params.get('session_id');
+    if (preselectPlan && signupPlanSelect) {
+      signupPlanSelect.value = preselectPlan;
+      updatePlanSummary(preselectPlan);
+    } else if (signupPlanSelect) {
+      updatePlanSummary(signupPlanSelect.value);
+    }
+    if (stripeSessionId && stripeSessionInput) {
+      stripeSessionInput.value = stripeSessionId;
+    }
+
+
+    const resultBox = document.getElementById('signup-result');
+    const errorBox = document.getElementById('signup-error');
+    const keyBox = document.getElementById('signup-api-key');
+
+    signupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      errorBox.hidden = true;
+      resultBox.hidden = true;
+
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const plan = document.getElementById('signup-plan').value;
+      const stripeSessionId = document.getElementById('stripe-session-id').value;
+
+      try {
+        if (!stripeSessionId) {
+          throw new Error('To generate an API key you must first complete Stripe checkout for your chosen plan.');
+        }
+        const res = await fetch('/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, plan, session_id: stripeSessionId }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.detail || 'Unable to create API key');
+        }
+
+        const data = await res.json();
+        keyBox.textContent = data.api_key;
+        resultBox.hidden = false;
+      } catch (err) {
+        errorBox.textContent = err.message || 'Something went wrong';
+        errorBox.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>

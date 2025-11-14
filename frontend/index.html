@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Servination AI Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+            <div class="brand">
+        <a href="/" class="brand-link">
+          <div class="brand-mark">S</div>
+          <div class="brand-copy">
+            <div class="brand-name">Servination</div>
+            <div class="brand-tagline">A full AI operations platform with knowledge intelligence & workflow automation.</div>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/assistants" class="nav-link">Assistants</a>
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <a href="/case-studies" class="nav-link">Case Studies</a>
+        <a href="/client" class="nav-link">Client login</a>
+        <a href="/signup" class="nav-link">Sign up</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="/signup" class="btn btn-outline">Start 30-day free trial</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>A full AI operations platform for teams that need reliable, explainable AI.</h1>
+          <p>
+            Servination is a full AI operations platform with built-in knowledge intelligence and workflow automation.
+            It connects multiple leading AI models in one place, understands your documents, and coordinates specialist
+            assistants across operations, finance, risk, pensions and compliance — without your teams needing to learn prompts
+            or complex tools.
+          </p>
+          <ul class="hero-points">
+            <li>Free 30-day trial on all self-serve plans</li>
+            <li>Pricing based on assistants unlocked & monthly token allowance</li>
+            <li>Usage-based billing that scales with your workflow volume</li>
+          </ul>
+          <div class="hero-actions">
+            <a href="#workspace" class="btn btn-primary">Open the live workspace</a>
+            <a href="/assistants" class="btn btn-ghost">Browse all assistants</a>
+          </div>
+          <p class="hero-footnote">
+            Billing is backed by Stripe. Trials roll into your chosen plan unless cancelled within 30 days.
+          </p>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-panel-label">Workflow insight preview</div>
+          <div class="mini-chat">
+            <div class="mini-chat-row mini-chat-row-user">
+              <div class="mini-chat-bubble">Show me how AI could streamline our client onboarding workflow.</div>
+            </div>
+            <div class="mini-chat-row mini-chat-row-ai">
+              <div class="mini-chat-bubble">
+                Based on similar teams, you can usually automate 40–60% of onboarding steps. The quickest wins are:
+                (1) pre-populating forms, (2) standardised risk checks, and (3) automated handovers between teams.
+              </div>
+            </div>
+          </div>
+          <div class="hero-panel-footer">
+            <span class="dot"></span> Powered by Servination AI
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="section calendar-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Organise operations like a calendar, not a chaos board.</h2>
+          <p>
+            Think of Servination as a calendar for your workflows: each assistant owns a lane, with clear handoffs,
+            SLAs and checkpoints. Your teams see what happens today, this week and this quarter at a glance.
+          </p>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-column">
+            <div class="calendar-column-header">Risk & Compliance</div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">LeadForge</div>
+              <div class="calendar-card-body">Define ICP, score leads and plan outbound sequences.</div>
+            </div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">SalesGen</div>
+              <div class="calendar-card-body">Draft cadences and talk tracks that land meetings.</div>
+            </div>
+          </div>
+          <div class="calendar-column">
+            <div class="calendar-column-header">Finance & Risk</div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">InvoiceVision</div>
+              <div class="calendar-card-body">Automate AP, approvals and anomaly checks.</div>
+            </div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">RegWatch</div>
+              <div class="calendar-card-body">Surface regulatory and conduct risks early.</div>
+            </div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">FinRes</div>
+              <div class="calendar-card-body">Turn financials into decision-ready insights.</div>
+            </div>
+          </div>
+          <div class="calendar-column">
+            <div class="calendar-column-header">Ops & People</div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">TaskFlow</div>
+              <div class="calendar-card-body">Standardise SOPs and handoffs across teams.</div>
+            </div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">ProjMan</div>
+              <div class="calendar-card-body">Keep milestones, risks and status narratives aligned.</div>
+            </div>
+            <div class="calendar-card">
+              <div class="calendar-card-title">HRBuddy</div>
+              <div class="calendar-card-body">Support onboarding, reviews and HR policies.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section id="workspace" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Unified AI workspace</h2>
+          <p>
+            Switch between assistants with one click. The interface stays the same, but the expertise behind each
+            conversation changes to match the problem you are solving.
+          </p>
+        </div>
+
+        <div class="chat-layout">
+          <aside class="chat-sidebar" id="assistant-sidebar">
+            <h3 class="sidebar-heading">Assistants</h3>
+
+            <!-- Sidebar assistant buttons: keep a compact curated view for the main workspace -->
+            <div class="assistant-list">
+              <button class="assistant-tab active" data-assistant="leadforge">
+                <span class="assistant-name">LeadForge</span>
+                <span class="assistant-meta">Sales & lead intelligence</span>
+              </button>
+              <button class="assistant-tab" data-assistant="invoicevision">
+                <span class="assistant-name">InvoiceVision</span>
+                <span class="assistant-meta">Invoices & AP automation</span>
+              </button>
+              <button class="assistant-tab" data-assistant="regwatch">
+                <span class="assistant-name">RegWatch</span>
+                <span class="assistant-meta">Risk & compliance insight</span>
+              </button>
+              <button class="assistant-tab" data-assistant="taskflow">
+                <span class="assistant-name">TaskFlow</span>
+                <span class="assistant-meta">Process & SOP automation</span>
+              </button>
+              <button class="assistant-tab" data-assistant="finres">
+                <span class="assistant-name">FinRes</span>
+                <span class="assistant-meta">Financial analysis & ratios</span>
+              </button>
+              <button class="assistant-tab" data-assistant="projman">
+                <span class="assistant-name">ProjMan</span>
+                <span class="assistant-meta">Project planning & delivery</span>
+              </button>
+              <button class="assistant-tab" data-assistant="datascout">
+                <span class="assistant-name">DataScout</span>
+                <span class="assistant-meta">Data summaries & anomalies</span>
+              </button>
+            </div>
+
+            <div class="sidebar-link-block">
+              <p class="sidebar-link-text">
+                Want to see every assistant in detail?
+              </p>
+              <a href="/assistants" class="btn btn-outline btn-small">View all assistants</a>
+            </div>
+          </aside>
+
+          <section class="chat-panel">
+            <header class="chat-panel-header">
+              <div>
+                <h3 id="chat-assistant-name">LeadForge</h3>
+                <p id="chat-assistant-desc" class="chat-assistant-desc">
+                  Sales & lead intelligence
+                </p>
+              </div>
+              <span class="chip chip-neutral">Simple chat · no API key needed for users</span>
+            </header>
+
+            <div id="chat-history" class="chat-history">
+              <div class="chat-message chat-message-ai">
+                <div class="chat-avatar">LF</div>
+                <div class="chat-bubble">
+                  Hi, I’m <strong>LeadForge</strong>. Tell me about a prospect, account list or market segment and I’ll
+                  help you sharpen your ICP and outreach.
+                </div>
+              </div>
+            </div>
+
+            <form id="chat-form" class="chat-input-row">
+              <textarea
+                id="chat-input"
+                class="chat-input"
+                rows="2"
+                placeholder="Type your question and press Enter to send..."
+              ></textarea>
+              <button type="submit" class="btn btn-primary chat-send-btn">
+                Send
+              </button>
+            </form>
+            <p class="chat-footnote">
+              This demo sends your message securely to the Servination backend and returns an AI-generated response.
+              In production, usage would be metered per token, with excess billed at model cost + 2% platform fee via Stripe.
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

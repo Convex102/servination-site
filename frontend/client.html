@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Client Workspace – Servination AI Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+            <div class="brand">
+        <a href="/" class="brand-link">
+          <div class="brand-mark">S</div>
+          <div class="brand-copy">
+            <div class="brand-name">Servination</div>
+            <div class="brand-tagline">A full AI operations platform with knowledge intelligence & workflow automation.</div>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/assistants" class="nav-link">Assistants</a>
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <a href="/client" class="nav-link active">Client login</a>
+        <a href="/signup" class="nav-link">Sign up</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="/signup" class="btn btn-outline">Start 30-day free trial</a>
+  </header>
+
+  <main class="page-main">
+    <section class="section">
+      <div class="container client-layout">
+        <aside class="client-auth-panel">
+          <h1>Client login</h1>
+          <p>
+            Paste your Servination API key below to unlock full access to the assistants included in your plan across
+            operations, finance, pensions, risk and compliance.
+            Without an API key, the workspace is limited to two sample requests per device.
+          </p>
+
+          <form id="login-form" class="auth-form">
+            <label class="field">
+              <span>Email</span>
+              <input type="email" id="login-email" required placeholder="you@company.com" value="nuttallg101@gmail.com" />
+            </label>
+
+            <label class="field">
+              <span>API key</span>
+              <input type="text" id="login-api-key" required placeholder="Paste your Servination API key" value="SERV-DEV-GRAEME-KEY" />
+            </label>
+
+            <button type="submit" class="btn btn-primary">Log in</button>
+          </form>
+
+          <div id="login-status" class="auth-result" hidden>
+            <h2>Logged in</h2>
+            <p class="muted">
+              Your API key is now active for this browser session. All assistant requests from this workspace
+              will use your key and plan.
+            </p>
+            <p id="login-plan"></p>
+          </div>
+
+          <div id="login-error" class="auth-error" hidden></div>
+
+          <p class="muted small">
+            Tip: you can generate an API key on the <a href="/signup">Create API key</a> page if you don't have one yet.
+          </p>
+        </aside>
+
+        <section class="chat-layout client-chat-layout">
+          <aside class="chat-sidebar">
+            <h3 class="sidebar-heading">Assistants</h3>
+            <p class="sidebar-subtitle">
+              Choose a specialist assistant, then start chatting. Access depends on your plan.
+            </p>
+            <div id="assistant-list" class="assistant-list">
+              <!-- Populated by app.js -->
+            </div>
+          </aside>
+
+          <section class="chat-panel">
+            <header class="chat-panel-header">
+              <div>
+                <h2 id="chat-assistant-title">Choose an assistant to start</h2>
+                <p id="chat-assistant-description" class="chat-assistant-desc">
+                  When you send a message, we'll route it to the assistant and apply your plan's access rules.
+                </p>
+              </div>
+            </header>
+
+            <div id="chat-window" class="chat-window">
+              <!-- Messages will stream here -->
+            </div>
+
+            <form id="chat-form" class="chat-input-row">
+              <input
+                id="chat-input"
+                type="text"
+                placeholder="Ask a question to the selected assistant…"
+                autocomplete="off"
+              />
+              <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+          </section>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const loginStatus = document.getElementById('login-status');
+    const loginPlan = document.getElementById('login-plan');
+    const loginError = document.getElementById('login-error');
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      loginError.hidden = true;
+      loginStatus.hidden = true;
+
+      const email = document.getElementById('login-email').value.trim();
+      const apiKey = document.getElementById('login-api-key').value.trim();
+
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, api_key: apiKey }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.detail || 'Unable to log in');
+        }
+
+        const data = await res.json();
+        // Store API key and plan globally for the client workspace
+        window.SERVINATION_API_KEY = apiKey;
+        window.SERVINATION_PLAN = data.plan;
+
+        // Update UI
+        loginPlan.textContent = `Plan: ${data.plan}`;
+        loginStatus.hidden = false;
+
+        // Optionally hide the login form once logged in
+        if (loginForm) {
+          loginForm.hidden = true;
+        }
+
+        // Notify the client workspace so it can load the right assistants
+        if (window.ServinationClient && typeof window.ServinationClient.onLogin === 'function') {
+          window.ServinationClient.onLogin({ plan: data.plan, apiKey });
+        }
+      } catch (err) {
+        loginError.textContent = err.message || 'Something went wrong';
+        loginError.hidden = false;
+      }
+    });
+  </script>
+</body>
+</html>
