@@ -1,9 +1,25 @@
-import uvicorn
-from dotenv import load_dotenv
 import os
 
+from fastapi import FastAPI
+from dotenv import load_dotenv
+import uvicorn
+
+# Load environment variables from .env if present
 load_dotenv()
-PORT = int(os.getenv("APP_PORT", 8000))
+
+# Render will set PORT in the environment
+PORT = int(os.getenv("PORT", 8000))
+
+# Create the FastAPI app
+app = FastAPI(title="Servination API")
+
+@app.get("/")
+async def root():
+    return {
+        "status": "ok",
+        "message": "Servination backend is running on Render."
+    }
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="127.0.0.1", port=PORT, reload=False)
+    # Bind to 0.0.0.0 so Render can route traffic into the container
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
